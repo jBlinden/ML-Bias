@@ -1,32 +1,31 @@
 source("http://bioconductor.org/biocLite.R")
+#install.packages('NeuralNetTools',repos = "http://cran.us.r-project.org")
+#Add this if you need to install neural network tools ^
+
+args <- commandArgs(TRUE)
+
+input_weights_file <-args[1]
+input_struct_file <-args[2]
+
+
 library(NeuralNetTools)
+library(rhdf5)
 data(neuraldat)
 
-my_weights <- read.delim("weights.txt")
-head(my_weights)
+#mydata <- h5read("myModel.hdf5","dense_37")
+#print(h5ls("myModel.hdf5"))
+#str(mydata)
 
+library(nnet)
+#mod <- nnet(Y1 ~ X1 + X2 + X3, data = neuraldat, size = 10)
+#print(mod)
+#paste(second_model,collapse=" ")
+my_weights <- c(scan(input_weights_file,double(),sep=","))
+#paste(my_weights, collapse=" ")
 wts_in <- my_weights
-.f = function(){
-#<-c(
 
-0.11876654,2.71078656,-2.82694977,
--0.0700461,-0.54482255,0.89892445,
--0.0576522,1.49119083,-1.34958522,
--0.13987502,3.40287371,-1.37313475,
--0.01901942,2.72451196,-0.08053674,
 
-0.01776611,-0.71557014,-0.33080407,-6.10737842,-3.90689368,-0.68386149,
-0.07615346,1.93788306,2.01800074,0.32545863,-0.86895665,-0.19280488,
--0.01073479,0.53519384,-1.42523548,0.74408332,-1.35969632,-2.77274485,
--0.00166744,-0.75823443,-0.3711385,-2.48650943,2.06487152,-4.96151007,
-0.06711185,0.25123773,-2.73905808,3.74387307,2.0416786,-1.63668046,
-
-0.10387698,0.28411543,-0.29518525,-0.46183389,0.17719155,1.29132985,
--0.10387698,0.39069374,-1.02619704,-0.17988786,-0.15959498,-1.11049255
-)
-}
-
-struct <- c(2,5,5,2)
+struct <- c(scan(input_struct_file,integer(),sep=","))
 plotnet(wts_in,struct)
 
 olden(wts_in,struct)
